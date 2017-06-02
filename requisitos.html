@@ -1,10 +1,10 @@
-<div class="formulario requisitos-list" ng-repeat="requisito in $ctrl.requisito ">
-  <div class="form-group col-md-6 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nombre.$focused && formulario.nombre.$valid}">
+<div class="formulario requisitos-list" >
+  <div class="form-group col-md-6 col-sm-5 col-xs-8" ng-repeat="caracteristica in $ctrl.caracteristica "ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nombre.$focused && formulario.nombre.$valid}">
       <label for="nombre">Nombre del requisito <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> :</label>
-      <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.requisito.nombre" ng-focus="focus=true" ng-blur="focus=false">
-      <span ng-if="$ctrl.mode === 'view'" class="form-control">{{requisito.nombre}}</span>
+      <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.caracteristica.nombre" ng-focus="focus=true" ng-blur="focus=false">
+      <span ng-if="$ctrl.mode === 'view'" class="form-control">{{caracteristica.nombre}}</span>
   </div>
-  <div class="form-group col-md-6 col-sm-5 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nivel.$focused && formulario.nivel.$valid}">
+  <div class="form-group col-md-6 col-sm-5 col-xs-8" ng-repeat="requisito in $ctrl.requisito " ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nivel.$focused && formulario.nivel.$valid}">
       <label for="nivel">Nivel del requisito <span ng-if="$ctrl.mode === 'edit'" class="glyphicon glyphicon-asterisk"></span> :</label>
       <input ng-if="$ctrl.mode === 'edit'" id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.requisito.nivel" ng-focus="focus=true" ng-blur="focus=false">
       <span ng-if="$ctrl.mode === 'view'" class="form-control">{{requisito.nivel}}</span>
