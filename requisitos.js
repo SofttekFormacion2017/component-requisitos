@@ -40,11 +40,13 @@ angular.module('ghr.requisitos', []) // Creamos este modulo para la entidad requ
     }
   })
   .constant('baseUrl', 'http://localhost:3003/api/')
-  .constant('reqEntidad', 'requisitos')
+  .constant('reqEntidad', 'listaDeRequisitos')
   .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad) {
     var serviceUrl = baseUrl + reqEntidad;
     return {
       // sistema CRUD de requisito
+      //
+
       getAll: function getAll() {
         return $http({
           method: 'GET',
@@ -71,7 +73,7 @@ angular.module('ghr.requisitos', []) // Creamos este modulo para la entidad requ
       read: function read(id) {
         return $http({
           method: 'GET',
-          url: serviceUrl + '/' + id
+          url: serviceUrl + '/' + id + '/requisitos'
         }).then(function onSuccess(response) {
           return response.data;
         });
