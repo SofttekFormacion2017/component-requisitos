@@ -1,11 +1,15 @@
-angular.module('ghr.requisitos', []) // Creamos este modulo para la entidad requisitos
+angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo para la entidad requisitos
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
-    controller($stateParams, requisitosFactory, $state) {
+    controller($stateParams, requisitosFactory, $state, caracteristicasFactory) {
       const vm = this;
 
       vm.mode = $stateParams.mode;
+
+      vm.setOriginal = function (data) {
+        vm.bueno = angular.copy(vm.caracteristica);
+      };
 
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response.filter(function (requisito) {
@@ -36,15 +40,24 @@ angular.module('ghr.requisitos', []) // Creamos este modulo para la entidad requ
             vm.requisito = requisito;
           }
         );
+        vm.original;
+        vm.bueno = caracteristicasFactory.read($stateParams.id).then(
+          function onSuccess(response) {
+            vm.setOriginal(response);
+          }
+        );
+        vm.bueno;
       }
     }
   })
   .constant('baseUrl', 'http://localhost:3003/api/')
-  .constant('reqEntidad', 'requisitos')
-  .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad) {
+  .constant('reqEntidad', 'listaDeRequisitos')
+  .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad, caracteristicasFactory) {
     var serviceUrl = baseUrl + reqEntidad;
     return {
       // sistema CRUD de requisito
+      //
+
       getAll: function getAll() {
         return $http({
           method: 'GET',
@@ -71,7 +84,7 @@ angular.module('ghr.requisitos', []) // Creamos este modulo para la entidad requ
       read: function read(id) {
         return $http({
           method: 'GET',
-          url: serviceUrl + '/' + id
+          url: serviceUrl + '/' + id + '/requisitos'
         }).then(function onSuccess(response) {
           return response.data;
         });
