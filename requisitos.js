@@ -1,63 +1,86 @@
-angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo para la entidad requisitos
+angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // Creamos este modulo para la entidad requisitos
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
-    controller($stateParams, requisitosFactory, $state, caracteristicasFactory) {
+    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory) {
       const vm = this;
-
       vm.mode = $stateParams.mode;
-
-      vm.setOriginal = function (data) {
-        vm.bueno = angular.copy(vm.caracteristica);
-      };
 
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response.filter(function (requisito) {
           return requisito.idCandidato == $stateParams.id;
         });
       });
-
       vm.update = function (user) {
         if ($stateParams.id == 0) {
           delete $stateParams.id;
-          requisitosFactory.create(vm.requisito).then(function (requisito) {
+          requisitosFactory.create(vm.requisitos).then(function (requisito) {
             $state.go($state.current, {
               id: requisito.id
             });
           });
         }
         if (vm.form.$dirty === true) {
-          requisitosFactory.update(vm.requisito).then(function (requisito) {});
+          requisitosFactory.update(vm.requisitos).then(function (requisito) {});
         }
       };
-
       vm.reset = function (form) {
-        vm.requisito = angular.copy(vm.original);
+        vm.requisitos = angular.copy(vm.original);
       };
+      vm.prueba;
       if ($stateParams.id != 0) {
-        vm.original = requisitosFactory.read($stateParams.id).then(
-          function (requisito) {
-            vm.requisito = requisito;
+        candidatoFactory.read($stateParams.id).then(function (candidato) {
+          vm.original = requisitosFactory.read(candidato.listaDeRequisitoId).then(function (requisitos) {
+            vm.requisitos = requisitos;
+            caracteristicasFactory.getAll().then(function (caracteristicas) {
+              vm.caracteristicas = caracteristicas;
+              vm.arrayCaracteristicas = [];
+              for (var i = 0; i < vm.requisitos.length; i++) {
+                for (var j = 0; j < vm.caracteristicas.length; j++) {
+                  if (vm.requisitos[i].caracteristicaId == vm.caracteristicas[j].id) {
+                    vm.arrayCaracteristicas.push(vm.caracteristicas[j]);
+                  }
+                }
+              }
+            });
+
+              // console.log(' LENGTH DE ARRAY REQUISITOS: ' + vm.requisitos.length);
+            // vm.comprobar(vm.requisitos);
           }
-        );
-        vm.original;
-        vm.bueno = caracteristicasFactory.read($stateParams.id).then(
-          function onSuccess(response) {
-            vm.setOriginal(response);
+          );
+        });
+
+        vm.comprobar = function (requisito) {
+          for (var i = 0; i < requisito.length; i++) {
+            console.log('DENTRO DE FUNCION COMPROBAR');
+            idCar = requisito[i].caracteristicaId;
+            // if (idCar != 0) {
+              // console.log('ENTRO AL IF CON ID: ' + idCar);
+            vm.leer(idCar);
+            // }
           }
-        );
-        vm.bueno;
+        };
+
+        vm.leer = function (idCar) {
+          console.log('DENTRO DE FUNCION LEER CON ID: ' + idCar);
+          caracteristicasFactory.read(idCar).then(
+            function (caracteristica) {
+              console.log('DENTRO DE FACTORY CON ID: ' + idCar);
+              vm.prueba = caracteristica;
+              console.log(caracteristica.nombre);
+            }
+          );
+        };
       }
     }
   })
   .constant('baseUrl', 'http://localhost:3003/api/')
   .constant('reqEntidad', 'listaDeRequisitos')
-  .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad, caracteristicasFactory) {
+  .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad, caracteristicasFactory, candidatoFactory) {
     var serviceUrl = baseUrl + reqEntidad;
     return {
       // sistema CRUD de requisito
       //
-
       getAll: function getAll() {
         return $http({
           method: 'GET',
@@ -66,7 +89,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo
           return response.data;
         },
           function onFailirure(reason) {
-
           });
       },
       create: function create(requisito) {
@@ -78,7 +100,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo
           return response.data;
         },
           function onFailirure(reason) {
-
           });
       },
       read: function read(id) {
@@ -111,17 +132,14 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo
     templateUrl: '../bower_components/component-requisitos/requisitos-list.html',
     controller(requisitosFactory, $uibModal, $log, $document) {
       const vm = this;
-
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response;
-        vm.requisito = vm.arrayRequisitos;
+        vm.requisitos = vm.arrayRequisitos;
       });
-
       vm.currentPage = 1;
       vm.setPage = function (pageNo) {
         vm.currentPage = pageNo;
       };
-
       vm.maxSize = 10; // Elementos mostrados por página
       vm.open = function (id, nombre) {
         var modalInstance = $uibModal.open({
@@ -132,7 +150,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas']) // Creamos este modulo
             }
           }
         });
-
         modalInstance.result.then(function (selectedItem) {
           vm.arrayRequisitos = requisitosFactory.getAll();
           requisitosFactory.delete(selectedItem).then(function () {
