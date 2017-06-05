@@ -5,6 +5,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
     controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory) {
       const vm = this;
       vm.mode = $stateParams.mode;
+
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response.filter(function (requisito) {
           return requisito.idCandidato == $stateParams.id;
