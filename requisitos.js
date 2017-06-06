@@ -31,6 +31,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
         requisitosFactory.delete(idLista, idRequisito).then(function () {
           $state.go($state.current, {
           id: $stateParams.id})
+        });
       };
       vm.prueba;
       if ($stateParams.id != 0) {
