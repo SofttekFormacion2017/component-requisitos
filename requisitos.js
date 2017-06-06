@@ -27,14 +27,20 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
       };
+      vm.borrar = function (idLista, idRequisito) {
+        requisitosFactory.delete(idLista, idRequisito).then(function () {
+          $state.go($state.current, {
+          id: $stateParams.id})
+      };
       vm.prueba;
       if ($stateParams.id != 0) {
         candidatoFactory.read($stateParams.id).then(function (candidato) {
           vm.original = requisitosFactory.read(candidato.listaDeRequisitoId).then(function (requisitos) {
             vm.requisitos = requisitos;
+            vm.idListaRequisitos = candidato.listaDeRequisitoId;
             caracteristicasFactory.getAll().then(function (caracteristicas) {
-              vm.caracteristicas = caracteristicas;
-              vm.arrayCaracteristicas = [];
+            vm.caracteristicas = caracteristicas;
+            vm.arrayCaracteristicas = [];
               for (var i = 0; i < vm.requisitos.length; i++) {
                 for (var j = 0; j < vm.caracteristicas.length; j++) {
                   if (vm.requisitos[i].caracteristicaId == vm.caracteristicas[j].id) {
@@ -42,6 +48,11 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
                   }
                 }
               }
+              vm.caracteristicasNombres = [];
+              for (var i = 0; i < vm.caracteristicas.length; i++){
+                vm.caracteristicasNombres.push(vm.caracteristicas[i].nombre);
+              }
+              //console.log(vm.caracteristicasNombres);
             });
 
               // console.log(' LENGTH DE ARRAY REQUISITOS: ' + vm.requisitos.length);
@@ -49,6 +60,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           }
           );
         });
+
       }
     }
   })
@@ -72,7 +84,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
       create: function create(requisito) {
         return $http({
           method: 'POST',
-          url: serviceUrl,
+          url: serviceUrl + '/' + idLista + '/' + 'requisitos' + '/' + idRequisito,
           data: requisito
         }).then(function onSuccess(response) {
           return response.data;
@@ -98,46 +110,71 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           return response.data;
         });
       },
-      delete: function _delete(selectedItem) {
+      delete: function _delete(idLista, idRequisito) {
         return $http({
           method: 'DELETE',
-          url: serviceUrl + '/' + selectedItem
+          url: serviceUrl + '/' + idLista + '/' + 'requisitos' + '/' + idRequisito
         });
       }
     };
   })
-  .component('ghrRequisitosList', {
-    templateUrl: '../bower_components/component-requisitos/requisitos-list.html',
-    controller(requisitosFactory, $uibModal, $log, $document) {
-      const vm = this;
-      requisitosFactory.getAll().then(function onSuccess(response) {
-        vm.arrayRequisitos = response;
-        vm.requisitos = vm.arrayRequisitos;
-      });
-      vm.currentPage = 1;
-      vm.setPage = function (pageNo) {
-        vm.currentPage = pageNo;
-      };
-      vm.maxSize = 10; // Elementos mostrados por página
-      vm.open = function (id, nombre) {
-        var modalInstance = $uibModal.open({
-          component: 'eliminarRequisitoModal',
-          resolve: {
-            seleccionado: function () {
-              return id;
-            }
-          }
-        });
-        modalInstance.result.then(function (selectedItem) {
-          vm.arrayRequisitos = requisitosFactory.getAll();
-          requisitosFactory.delete(selectedItem).then(function () {
-            requisitosFactory.getAll().then(function (requisito) {
-              vm.arrayRequisitos = requisito;
-            });
-          });
-        });
-      };
-    }
+  // .component('ghrRequisitosList', {
+  //   templateUrl: '../bower_components/component-requisitos/requisitos-list.html',
+  //   controller(requisitosFactory, $uibModal, $log, $document) {
+  //     const vm = this;
+  //     requisitosFactory.getAll().then(function onSuccess(response) {
+  //       vm.arrayRequisitos = response;
+  //       vm.requisitos = vm.arrayRequisitos;
+  //     });
+  //     vm.currentPage = 1;
+  //     vm.setPage = function (pageNo) {
+  //       vm.currentPage = pageNo;
+  //     };
+  //     vm.maxSize = 10; // Elementos mostrados por página
+  //
+  //     // vm.open = function (id) {
+  //     //   var modalInstance = $uibModal.open({
+  //     //     component: 'eliminarRequisitoModal',
+  //     //     resolve: {
+  //     //       seleccionado: function () {
+  //     //         return id;
+  //     //       }
+  //     //     }
+  //     //   });
+  //     //   modalInstance.result.then(function (selectedItem) {
+  //     //     vm.arrayRequisitos = requisitosFactory.getAll();
+  //     //     requisitosFactory.delete(selectedItem).then(function () {
+  //     //       requisitosFactory.getAll().then(function (requisito) {
+  //     //         vm.arrayRequisitos = requisito;
+  //     //       });
+  //     //     });
+  //     //   });
+  //     // };
+  //   }
+  // })
+  .component('eliminarRequisitoModal', { // El componente del modal
+      templateUrl: '../bower_components/component-requisitos/eliminarRequisitoModal.html',
+      bindings: {
+          resolve: '<',
+          close: '&',
+          dismiss: '&'
+      },
+      controller: function() {
+          const vm = this;
+          vm.$onInit = function() {
+              vm.selected = vm.resolve.seleccionado;
+          };
+          vm.ok = function(seleccionado) { //Este metodo nos sirve para marcar el candidato que se ha seleccionado
+              vm.close({
+                  $value: seleccionado
+              });
+          };
+          vm.cancel = function() { //Este metodo cancela la operacion
+              vm.dismiss({
+                  $value: 'cancel'
+              });
+          };
+      }
   })
   .run($log => {
     $log.log('Ejecutando Componente Requisitos');
