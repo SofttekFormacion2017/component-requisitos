@@ -49,28 +49,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           }
           );
         });
-
-        vm.comprobar = function (requisito) {
-          for (var i = 0; i < requisito.length; i++) {
-            console.log('DENTRO DE FUNCION COMPROBAR');
-            idCar = requisito[i].caracteristicaId;
-            // if (idCar != 0) {
-              // console.log('ENTRO AL IF CON ID: ' + idCar);
-            vm.leer(idCar);
-            // }
-          }
-        };
-
-        vm.leer = function (idCar) {
-          console.log('DENTRO DE FUNCION LEER CON ID: ' + idCar);
-          caracteristicasFactory.read(idCar).then(
-            function (caracteristica) {
-              console.log('DENTRO DE FACTORY CON ID: ' + idCar);
-              vm.prueba = caracteristica;
-              console.log(caracteristica.nombre);
-            }
-          );
-        };
       }
     }
   })
