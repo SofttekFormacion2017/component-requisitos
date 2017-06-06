@@ -1,0 +1,12 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">Eliminando Requisito</h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <p>Está a punto de borrar un Requisito, esta operación no se puede revertir.</p>
+  <p>¿Está usted seguro?</p>
+
+</div>
+<div class="modal-footer">
+  <button class="btn" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+  <button class="btn btn-danger" type="button" ng-click="$ctrl.ok($ctrl.selected)">Eliminar</button>
+</div>

@@ -8,12 +8,8 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-11 col-sm-11">
-          <input id="inputSuccess2" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.arrayCaracteristicas[$index].nombre" ng-focus="focus=true" ng-blur="focus=false">
-        </div>
-        <div class="col-md-1 col-sm-1">
-          <button id="split-button" type="button" class="btn btn-primary "
-          ui-sref="app.caracteristicasDetalle({id:$ctrl.arrayCaracteristicas[$index].id,mode:'edit'})"><span class="glyphicon glyphicon-edit"></span></button>
+        <div class="col-md-12 col-sm-12">
+          <input id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.arrayCaracteristicas[$index].nombre" ng-focus="focus=true" ng-blur="focus=false">
         </div>
       </div>
 
@@ -30,8 +26,8 @@
         </div>
         <div class="col-md-1 col-sm-1">
           <!--CORREGIR FUNCION UPDATE EN REQUISITOS.JS-->
-          <button id="split-button" type="button" class="btn btn-primary"
-          ng-click="$ctrl.update(requisito)"><span class="glyphicon glyphicon-edit"></span></button>
+          <button id="split-button" type="button" class="btn btn-danger"
+          ng-click="$ctrl.borrar($ctrl.idListaRequisitos, requisito.id)"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
       </div>
     </div>
