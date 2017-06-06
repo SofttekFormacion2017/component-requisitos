@@ -82,10 +82,10 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           function onFailirure(reason) {
           });
       },
-      create: function create(requisito) {
+      create: function create(idLista) {
         return $http({
           method: 'POST',
-          url: serviceUrl + '/' + idLista + '/' + 'requisitos' + '/' + idRequisito,
+          url: serviceUrl + '/' + idLista + '/' + 'requisitos',
           data: requisito
         }).then(function onSuccess(response) {
           return response.data;
