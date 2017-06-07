@@ -4,12 +4,12 @@
 
       <div class="row">
           <div class="col-md-12 col-sm-12">
-          <label for="nivel">Nombre del requisito <span  class="glyphicon glyphicon-asterisk"></span> :</label>
+          <label for="nombre">Nombre del requisito <span  class="glyphicon glyphicon-asterisk"></span> :</label>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12 col-sm-12">
-          <input id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.arrayCaracteristicas[$index].nombre" ng-focus="focus=true" ng-blur="focus=false">
+          <input id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" ng-init="nombreCaracteristica='angular'" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.arrayCaracteristicas[$index].nombre" ng-focus="focus=true" ng-blur="focus=false">
         </div>
       </div>
 
@@ -22,7 +22,7 @@
       </div>
       <div class="row">
         <div class="col-md-11 col-sm-11">
-          <input  id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="requisito.nivel" ng-focus="focus=true" ng-blur="focus=false">
+          <input  id="inputSuccess2" class="form-control has-success" ng-init="nivelRequisito ='0'" name="nivel" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="requisito.nivel" ng-focus="focus=true" ng-blur="focus=false">
         </div>
         <div class="col-md-1 col-sm-1">
           <!--CORREGIR FUNCION UPDATE EN REQUISITOS.JS-->
@@ -41,8 +41,17 @@
         </span>
       </div>
       <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nivel.$focused && formulario.nivel.$valid}">
-        <label for="nombre">Nivel del requisito</label>
+        <label for="nivel">Nivel del requisito</label>
         <span class="form-control">{{requisito.nivel}}</span>
       </div>
   </div>
+
+</div>
+<div ng-if="$ctrl.mode ==='edit'"class="row col-md-offset-10">
+  <button id="split-button" type="button" class="btn btn-primary"
+      ng-click="$ctrl.crearInput($ctrl.requisitos)"><span class="glyphicon glyphicon-plus"></span> Nuevo Requisito</button>
+</div>
+<div ng-if="$ctrl.mode ==='edit'"class="row ">
+  <button id="split-button" type="button" class="btn btn-primary"
+      ng-click="$ctrl.createRequisito($ctrl.idListaRequisitos,nombreCaracteristica.nombre,nivelRequisito )"><span class="glyphicon glyphicon-plus"></span>Crear</button>
 </div>
