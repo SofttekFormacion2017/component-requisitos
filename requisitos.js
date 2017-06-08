@@ -1,10 +1,14 @@
-angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // Creamos este modulo para la entidad requisitos
+angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos','toastr']) // Creamos este modulo para la entidad requisitos
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
-    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory) {
+    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory,toastr) {
       const vm = this;
       vm.mode = $stateParams.mode;
+      vm.modos = '';
+      vm.aparece = function (){
+        vm.modos ='aparece'
+      }
       vm.objetoFormulario = function (nombreRequisito, nivelRequisito) {
         caracteristicasFactory.getAll().then(function onSuccess(response){
           vm.elObjeto ={
@@ -19,17 +23,44 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
               }
             }
           }
+
           requisitosFactory.create(vm.idListaRequisitos,vm.elObjeto);
           $state.go($state.current, {
               mode: 'view'
           });
         });
-      }
+
+    }
+
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response.filter(function (requisito) {
           return requisito.idCandidato == $stateParams.id;
         });
       });
+      vm.crearInput = function (requisitos) {
+        vm.arrayRequisitos = requisitos;
+        vm.arrayRequisitos.push({
+        });
+      };
+      vm.createRequisito = function (idLista, nombre, nivel) {
+        console.log(idLista);
+        console.log(nivel);
+        console.log(nombre);
+        var id;
+        for (var i = 0; i < vm.arrayCaracteristicas.length; i++) {
+          if (vm.arrayCaracteristicas[i].nombre == nombre) {
+            id = vm.arrayCaracteristicas.id;
+            console.log(id);
+          }
+        }
+        requisito = {
+          caracteristicaId: id, // sacarla
+          nivel: nivel
+        };
+        requisitosFactory.create(idLista, requisito).then(function (requisito) {
+          vm.nuevoRequisito = requisito;
+        });
+      };
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
       };
@@ -40,7 +71,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           });
         });
       };
-      vm.prueba;
       if ($stateParams.id != 0) {
         candidatoFactory.read($stateParams.id).then(function (candidato) {
           vm.original = requisitosFactory.read(candidato.listaDeRequisitoId).then(function (requisitos) {
@@ -60,10 +90,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
               for (var i = 0; i < vm.caracteristicas.length; i++) {
                 vm.caracteristicasNombres.push(vm.caracteristicas[i].nombre);
               }
-              // console.log(vm.caracteristicasNombres);
             });
-            // console.log(' LENGTH DE ARRAY REQUISITOS: ' + vm.requisitos.length);
-            // vm.comprobar(vm.requisitos);
           });
         });
       }
@@ -121,40 +148,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
       }
     };
   })
-  // .component('ghrRequisitosList', {
-  //   templateUrl: '../bower_components/component-requisitos/requisitos-list.html',
-  //   controller(requisitosFactory, $uibModal, $log, $document) {
-  //     const vm = this;
-  //     requisitosFactory.getAll().then(function onSuccess(response) {
-  //       vm.arrayRequisitos = response;
-  //       vm.requisitos = vm.arrayRequisitos;
-  //     });
-  //     vm.currentPage = 1;
-  //     vm.setPage = function (pageNo) {
-  //       vm.currentPage = pageNo;
-  //     };
-  //     vm.maxSize = 10; // Elementos mostrados por página
-  //
-  //     // vm.open = function (id) {
-  //     //   var modalInstance = $uibModal.open({
-  //     //     component: 'eliminarRequisitoModal',
-  //     //     resolve: {
-  //     //       seleccionado: function () {
-  //     //         return id;
-  //     //       }
-  //     //     }
-  //     //   });
-  //     //   modalInstance.result.then(function (selectedItem) {
-  //     //     vm.arrayRequisitos = requisitosFactory.getAll();
-  //     //     requisitosFactory.delete(selectedItem).then(function () {
-  //     //       requisitosFactory.getAll().then(function (requisito) {
-  //     //         vm.arrayRequisitos = requisito;
-  //     //       });
-  //     //     });
-  //     //   });
-  //     // };
-  //   }
-  // })
   .component('eliminarRequisitoModal', { // El componente del modal
     templateUrl: '../bower_components/component-requisitos/eliminarRequisitoModal.html',
     bindings: {
