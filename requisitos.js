@@ -30,43 +30,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
           return requisito.idCandidato == $stateParams.id;
         });
       });
-      vm.crearInput = function (requisitos) {
-        vm.arrayRequisitos = requisitos;
-        vm.arrayRequisitos.push({
-        });
-      };
-      vm.createRequisito = function (idLista, nombre, nivel) {
-        console.log(idLista);
-        console.log(nivel);
-        console.log(nombre);
-        var id;
-        for (var i = 0; i < vm.arrayCaracteristicas.length; i++) {
-          if (vm.arrayCaracteristicas[i].nombre == nombre) {
-            id = vm.arrayCaracteristicas.id;
-            console.log(id);
-          }
-        }
-        requisito = {
-          caracteristicaId: id, // sacarla
-          nivel: nivel
-        };
-        requisitosFactory.create(idLista, requisito).then(function (requisito) {
-          vm.nuevoRequisito = requisito;
-        });
-      };
-      vm.update = function (user) {
-        if ($stateParams.id == 0) {
-          delete $stateParams.id;
-          requisitosFactory.create(vm.requisitos).then(function (requisito) {
-            $state.go($state.current, {
-              id: requisito.id
-            });
-          });
-        }
-        if (vm.form.$dirty === true) {
-          requisitosFactory.update(vm.requisitos).then(function (requisito) {});
-        }
-      };
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
       };
