@@ -1,4 +1,6 @@
 <hr>
+<div class="row" ng-init="vm.modos===''">
+<div class="col-md-7">
 <div class="row">
     <div class="col-md-6 col-sm-6">
     <label for="nombre">Nombre del requisito <span  class="glyphicon glyphicon-asterisk"></span> :</label>
@@ -39,26 +41,37 @@
       </div>
   </div>
 </div>
-<div ng-if="$ctrl.mode ==='edit'"class="row">
+
+
+<div ng-if="$ctrl.mode ==='edit' && $ctrl.modos === 'aparece'"class="row">
     <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nombre.$focused && formulario.nombre.$valid}">
-      <input required id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nombreRequisito" ng-focus="focus=true" ng-blur="focus=false">
+      <input id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nombreRequisito" ng-focus="focus=true" ng-blur="focus=false">
     </div>
     <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formulario.nombre.$invalid && !formulario.nombre.$pristine, 'has-success': !formulario.nivel.$focused && formulario.nivel.$valid}">
       <div class="row">
         <div class="form-group col-md-11 col-sm-11">
-          <input required id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[0-9]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nivelRequisito" ng-focus="focus=true" ng-blur="focus=false">
+          <input id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[0-9]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nivelRequisito" ng-focus="focus=true" ng-blur="focus=false">
         </div>
         <div class="form-group col-md-1 col-sm-1">
-          <span class="btn btn-primary glyphicon glyphicon-plus" ng-click="$ctrl.objetoFormulario($ctrl.nombreRequisito, $ctrl.nivelRequisito)"></span>
+          <span class="btn btn-primary glyphicon glyphicon-check" ng-click="$ctrl.objetoFormulario($ctrl.nombreRequisito, $ctrl.nivelRequisito)"></span>
         </div>
       </div>
     </div>
 </div>
-<!-- <div ng-if="$ctrl.mode ==='edit'"class="row col-md-offset-10">
-  <button id="split-button" type="button" class="btn btn-primary"
-      ng-click="$ctrl.crearInput($ctrl.requisitos)"><span class="glyphicon glyphicon-plus"></span> Nuevo Requisito</button>
+<div ng-if="$ctrl.mode ==='edit'">
+  <div class="row">
+    <div class="col-md-6 col-sm-6">
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <div class="row">
+        <div class="col-md-11 col-sm-11">
+        </div>
+        <div class="col-mdd-1 col-sm-1">
+          <span class="btn btn-primary glyphicon glyphicon-plus" ng-click="$ctrl.aparece()"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div ng-if="$ctrl.mode ==='edit'"class="row ">
-  <button id="split-button" type="button" class="btn btn-primary"
-      ng-click="$ctrl.createRequisito($ctrl.idListaRequisitos,nombreCaracteristica,nivelRequisito )"><span class="glyphicon glyphicon-plus"></span>Crear</button>
-</div> -->
+</div>
+</div>
