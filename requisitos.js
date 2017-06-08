@@ -1,10 +1,36 @@
-angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // Creamos este modulo para la entidad requisitos
+angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos','toastr']) // Creamos este modulo para la entidad requisitos
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
-    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory) {
+    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory,toastr) {
       const vm = this;
       vm.mode = $stateParams.mode;
+      vm.modos = '';
+      vm.aparece = function (){
+        vm.modos ='aparece'
+      }
+      vm.objetoFormulario = function (nombreRequisito, nivelRequisito) {
+        caracteristicasFactory.getAll().then(function onSuccess(response){
+          vm.elObjeto ={
+            caracteristicaId : sacarCaracteristicaId(),
+            nivel : nivelRequisito,
+            listaDeRequisitoId: vm.idListaRequisitos
+          };
+          function sacarCaracteristicaId(){
+            for (var i = 0; i < response.length; i++) {
+              if(response[i].nombre == nombreRequisito){
+                return response[i].id
+              }
+            }
+          }
+
+          requisitosFactory.create(vm.idListaRequisitos,vm.elObjeto);
+          $state.go($state.current, {
+              mode: 'view'
+          });
+        });
+
+    }
 
       requisitosFactory.getAll().then(function onSuccess(response) {
         vm.arrayRequisitos = response.filter(function (requisito) {
@@ -14,7 +40,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
       vm.crearInput = function (requisitos) {
         vm.arrayRequisitos = requisitos;
         vm.arrayRequisitos.push({
-
         });
       };
       vm.createRequisito = function (idLista, nombre, nivel) {
@@ -55,7 +80,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
       vm.borrar = function (idLista, idRequisito) {
         requisitosFactory.delete(idLista, idRequisito).then(function () {
           $state.go($state.current, {
-            id: $stateParams.id
+            mode: 'view'
           });
         });
       };
@@ -81,7 +106,6 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos']) // C
               }
               // console.log(vm.caracteristicasNombres);
             });
-
             // console.log(' LENGTH DE ARRAY REQUISITOS: ' + vm.requisitos.length);
             // vm.comprobar(vm.requisitos);
           });
