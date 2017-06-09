@@ -2,70 +2,19 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos','toast
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
-    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory,toastr) {
+    controller($stateParams, requisitosFactory, $state, caracteristicasFactory, candidatoFactory, toastr) {
       const vm = this;
       vm.mode = $stateParams.mode;
       vm.modos = '';
       vm.aparece = function (){
         vm.modos ='aparece'
       }
-      vm.objetoFormulario = function (nombreRequisito, nivelRequisito) {
-        caracteristicasFactory.getAll().then(function onSuccess(response){
-          vm.elObjeto ={
-            caracteristicaId : sacarCaracteristicaId(),
-            nivel : nivelRequisito,
-            listaDeRequisitoId: vm.idListaRequisitos
-          };
-          function sacarCaracteristicaId(){
-            for (var i = 0; i < response.length; i++) {
-              if(response[i].nombre == nombreRequisito){
-                return response[i].id
-              }
-            }
-          }
-
-          requisitosFactory.create(vm.idListaRequisitos,vm.elObjeto);
-          $state.go($state.current, {
-              mode: 'view'
-          });
-        });
-
-    }
-
-      requisitosFactory.getAll().then(function onSuccess(response) {
-        vm.arrayRequisitos = response.filter(function (requisito) {
-          return requisito.idCandidato == $stateParams.id;
-        });
-      });
-      vm.crearInput = function (requisitos) {
-        vm.arrayRequisitos = requisitos;
-        vm.arrayRequisitos.push({
-        });
-      };
-      vm.createRequisito = function (idLista, nombre, nivel) {
-        console.log(idLista);
-        console.log(nivel);
-        console.log(nombre);
-        var id;
-        for (var i = 0; i < vm.arrayCaracteristicas.length; i++) {
-          if (vm.arrayCaracteristicas[i].nombre == nombre) {
-            id = vm.arrayCaracteristicas.id;
-            console.log(id);
-          }
-        }
-        requisito = {
-          caracteristicaId: id, // sacarla
-          nivel: nivel
-        };
-        requisitosFactory.create(idLista, requisito).then(function (requisito) {
-          vm.nuevoRequisito = requisito;
-        });
-      };
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
       };
       vm.borrar = function (idLista, idRequisito) {
         requisitosFactory.delete(idLista, idRequisito).then(function () {
+          toastr.success('El requisito se ha borrado correctamente');
           $state.go($state.current, {
             mode: 'view'
           });
