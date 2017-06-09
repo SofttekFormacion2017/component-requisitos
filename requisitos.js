@@ -1,4 +1,4 @@
-angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos','toastr']) // Creamos este modulo para la entidad requisitos
+angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toastr']) // Creamos este modulo para la entidad requisitos
   .component('ghrRequisitos', { // Componente que contiene la url que indica su html
     templateUrl: '../bower_components/component-requisitos/requisitos.html',
     // El controlador de ghrrequisitos
@@ -6,9 +6,9 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos','toast
       const vm = this;
       vm.mode = $stateParams.mode;
       vm.modos = '';
-      vm.aparece = function (){
-        vm.modos ='aparece'
-      }
+      vm.aparece = function () {
+        vm.modos = 'aparece';
+      };
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
       };
