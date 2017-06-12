@@ -7,7 +7,11 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toas
       vm.mode = $stateParams.mode;
       vm.modos = '';
       vm.aparece = function () {
-        vm.modos = 'aparece';
+        if(vm.modos == ''){
+          vm.modos = 'aparece';
+        } else {
+          vm.modos = '';
+        }
       };
       vm.reset = function (form) {
         vm.requisitos = angular.copy(vm.original);
