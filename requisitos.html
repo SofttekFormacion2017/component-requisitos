@@ -52,13 +52,13 @@
         <div class="form-group col-md-11 col-sm-11">
           <input ng-if="$ctrl.mode ==='edit' && $ctrl.modos === 'aparece'" id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[0-9]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nivelRequisito" ng-focus="focus=true" ng-blur="focus=false">
         </div>
-        <div class="form-group col-md-1 col-sm-1" ng-if="$ctrl.modos ==='aparece'">
+        <div class="form-group col-md-1 col-sm-1" ng-if="$ctrl.modos ===''">
           <span class="btn btn-primary glyphicon glyphicon-plus" ng-click="$ctrl.aparece()"></span>
         </div>
       </div>
     </div>
 </div>
-<div ng-if="$ctrl.mode ==='edit'">
+<!-- <div ng-if="$ctrl.mode ==='edit'">
   <div class="row">
     <div class="col-md-6 col-sm-6">
     </div>
@@ -73,5 +73,5 @@
     </div>
   </div>
 </div>
-</div>
+</div> -->
 </div>
