@@ -3,19 +3,19 @@
 <h3>Requisitos</h3>
 <div class="formulario requisitos-list" ng-repeat="requisito in $ctrl.requisitos track by $index">
   <div ng-if="$ctrl.mode ==='edit'" class="row">
-    <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
+    <div class="form-group col-md-6 col-sm-6 col-xs-4" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
       <div class="row">
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-12 col-sm-6">
           <input disabled id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" ng-init="nombreCaracteristica='angular'" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.arrayCaracteristicas[$index].nombre" ng-focus="focus=true" ng-blur="focus=false">
         </div>
       </div>
     </div>
-    <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
+    <div class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
       <div class="row">
-        <div class="col-md-10 col-sm-11">
+        <div class="col-md-10 col-sm-10 col-xs-10">
           <input  disabled id="inputSuccess2" class="form-control has-success" ng-init="nivelRequisito ='0'" name="nivel" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="requisito.nivel" ng-focus="focus=true" ng-blur="focus=false">
         </div>
-        <div class="col-md-2 col-sm-1">
+        <div class="col-md-2 col-sm-2 col-xs-2">
           <button id="split-button" type="button" class="btn btn-danger"
           ng-click="$ctrl.borrar($ctrl.idListaRequisitos, requisito.id)"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
@@ -35,15 +35,15 @@
 
 
 <div class="row" ng-if="$ctrl.mode ==='edit'">
-    <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
+    <div class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
       <input  ng-if="$ctrl.mode ==='edit' && $ctrl.modos === 'aparece'" id="inputSuccess2" uib-typeahead="nombre for nombre in $ctrl.caracteristicasNombres | filter:$viewValue | limitTo:8" class="form-control has-success" name="nombre" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nombreRequisito" ng-focus="focus=true" ng-blur="focus=false">
     </div>
-    <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nivel.$focused && formRequisitos.nivel.$valid}">
+    <div class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nivel.$focused && formRequisitos.nivel.$valid}">
       <div class="row">
-        <div class="form-group col-md-10 col-sm-11">
+        <div class="form-group col-md-10 col-sm-10 col-xs-10">
           <input ng-if="$ctrl.mode ==='edit' && $ctrl.modos === 'aparece'" id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[0-9]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nivelRequisito" ng-focus="focus=true" ng-blur="focus=false">
         </div>
-        <div class="form-group col-md-2 col-sm-1" ng-if="$ctrl.modos ===''">
+        <div class="form-group col-md-2 col-sm-2 col-xs-2" ng-if="$ctrl.modos ===''">
           <span class="btn btn-primary glyphicon glyphicon-plus" ng-click="$ctrl.aparece()"></span>
         </div>
       </div>
