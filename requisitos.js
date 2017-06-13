@@ -7,7 +7,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toas
       vm.mode = $stateParams.mode;
       vm.modos = '';
       vm.aparece = function () {
-        if(vm.modos == ''){
+        if (vm.modos == '') {
           vm.modos = 'aparece';
         } else {
           vm.modos = '';
@@ -51,7 +51,7 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toas
   })
   .constant('baseUrl', 'http://localhost:3003/api/')
   .constant('reqEntidad', 'listaDeRequisitos')
-  .factory('requisitosFactory', function crearrequisitos($http, baseUrl, reqEntidad, caracteristicasFactory, candidatoFactory) {
+  .factory('requisitosFactory', function crearRequisitos($http, baseUrl, reqEntidad, caracteristicasFactory, candidatoFactory) {
     var serviceUrl = baseUrl + reqEntidad;
     return {
       // sistema CRUD de requisito
@@ -74,6 +74,15 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toas
           return response.data;
         },
           function onFailirure(reason) {});
+      },
+      createList: function createList() {
+        return $http({
+          method: 'POST',
+          url: serviceUrl
+
+        }).then(function onSucces(response) {
+          return response.data;
+        });
       },
       read: function read(id) {
         return $http({
