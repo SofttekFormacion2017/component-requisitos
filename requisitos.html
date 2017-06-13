@@ -1,11 +1,12 @@
+<h3>Requisitos</h3></br>
 <div class="row" ng-init="vm.modos===''">
-<div class="col-md-7">
+<div class="col-md-12">
 <div class="row">
     <div class="col-md-6 col-sm-6">
-    <label for="nombre">Nombre del requisito <span  class="glyphicon glyphicon-asterisk"></span> :</label>
+    <label for="nombre">Nombre <span  class="glyphicon glyphicon-asterisk"></span> :</label>
   </div>
     <div class="col-md-6 col-sm-6">
-    <label for="nivel">Nivel del requisito <span  class="glyphicon glyphicon-asterisk"></span> :</label>
+    <label for="nivel">Nivel <span  class="glyphicon glyphicon-asterisk"></span> :</label>
   </div>
 </div>
 <br>
@@ -20,10 +21,10 @@
     </div>
     <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
       <div class="row">
-        <div class="col-md-11 col-sm-11">
+        <div class="col-md-10 col-sm-11">
           <input  disabled id="inputSuccess2" class="form-control has-success" ng-init="nivelRequisito ='0'" name="nivel" required autofocus pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ. ]{0,}" aria-describedby="helpBlock2" ng-model="requisito.nivel" ng-focus="focus=true" ng-blur="focus=false">
         </div>
-        <div class="col-md-1 col-sm-1">
+        <div class="col-md-2 col-sm-1">
           <button id="split-button" type="button" class="btn btn-danger"
           ng-click="$ctrl.borrar($ctrl.idListaRequisitos, requisito.id)"><span class="glyphicon glyphicon-trash"></span></button>
         </div>
@@ -48,10 +49,10 @@
     </div>
     <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nivel.$focused && formRequisitos.nivel.$valid}">
       <div class="row">
-        <div class="form-group col-md-11 col-sm-11">
+        <div class="form-group col-md-10 col-sm-11">
           <input ng-if="$ctrl.mode ==='edit' && $ctrl.modos === 'aparece'" id="inputSuccess2" class="form-control has-success" name="nivel" required autofocus pattern="[0-9]{0,}" aria-describedby="helpBlock2" ng-model="$ctrl.nivelRequisito" ng-focus="focus=true" ng-blur="focus=false">
         </div>
-        <div class="form-group col-md-1 col-sm-1" ng-if="$ctrl.modos ===''">
+        <div class="form-group col-md-2 col-sm-1" ng-if="$ctrl.modos ===''">
           <span class="btn btn-primary glyphicon glyphicon-plus" ng-click="$ctrl.aparece()"></span>
         </div>
       </div>
