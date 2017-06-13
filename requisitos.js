@@ -75,11 +75,11 @@ angular.module('ghr.requisitos', ['ghr.caracteristicas', 'ghr.candidatos', 'toas
         },
           function onFailirure(reason) {});
       },
-      createList: function createList(listaDeRequisito) {
+      createList: function createList() {
         return $http({
           method: 'POST',
-          url: serviceUrl,
-          data: listaDeRequisito
+          url: serviceUrl
+
         }).then(function onSucces(response) {
           return response.data;
         });
