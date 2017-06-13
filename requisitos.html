@@ -1,15 +1,6 @@
-<h3>Requisitos</h3></br>
 <div class="row" ng-init="vm.modos===''">
 <div class="col-md-12">
-<div class="row">
-    <div class="col-md-6 col-sm-6">
-    <label for="nombre">Nombre <span  class="glyphicon glyphicon-asterisk"></span> :</label>
-  </div>
-    <div class="col-md-6 col-sm-6">
-    <label for="nivel">Nivel <span  class="glyphicon glyphicon-asterisk"></span> :</label>
-  </div>
-</div>
-<br>
+<h3>Requisitos</h3>
 <div class="formulario requisitos-list" ng-repeat="requisito in $ctrl.requisitos track by $index">
   <div ng-if="$ctrl.mode ==='edit'" class="row">
     <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nombre.$focused && formRequisitos.nombre.$valid}">
@@ -37,7 +28,7 @@
         </span>
       </div>
       <div class="form-group col-md-6 col-sm-6 col-xs-8" ng-class="{ 'has-error' : formRequisitos.nombre.$invalid && !formRequisitos.nombre.$pristine, 'has-success': !formRequisitos.nivel.$focused && formRequisitos.nivel.$valid}">
-        <span class="form-control">{{requisito.nivel}}</span>
+        <span class="form-control">Nivel {{requisito.nivel}}</span>
       </div>
   </div>
 </div>
